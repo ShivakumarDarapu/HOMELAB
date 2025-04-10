@@ -18,9 +18,9 @@ spec:
     spec:
       containers:
       - name: sample-app-container
-        image: armsultan/solar-system:venus
+        image: nginx
         ports:
-        - containerPort: 3000
+        - containerPort: 80
 ---
 
 apiVersion: v1
@@ -34,7 +34,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 3000
+    targetPort: 80
   selector:
     app: sample-app
   type: ClusterIP
