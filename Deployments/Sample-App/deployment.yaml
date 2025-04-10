@@ -1,0 +1,78 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+  namespace: sample
+  labels:
+    app: sample-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      containers:
+      - name: sample-app-container
+        image: armsultan/solar-system:venus
+        ports:
+        - containerPort: 3000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: solar-system
+  name: solar-system
+  namespace: sample
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: solar-system 
+  type: ClusterIp
+
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: sampleapp
+  namespace: sample
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "sampleapp.homelab.potatohead.live"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: sampleapp
+  namespace: sample
+spec:
+  hosts:
+    - "sampleapp.homelab.potatohead.live"
+  gateways:
+    - sampleapp
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: solar-system
+            port:
+              number: 3000
