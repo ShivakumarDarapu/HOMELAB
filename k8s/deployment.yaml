@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps
+  # You'll usually want to add your resources to the argocd namespace.
+  # namespace: argocd
+  # # Add this finalizer ONLY if you want these to cascade delete.
+  # finalizers:
+  #   # The default behaviour is foreground cascading deletion
+  #   - resources-finalizer.argocd.argoproj.io
+  #   # Alternatively, you can use background cascading deletion
+  #   # - resources-finalizer.argocd.argoproj.io/background
+  # # Add labels to your application object.
+  # labels:
+  #   name: guestbook
+spec:
+  # The project the application belongs to.
+  project: app-of-apps
+
+  # Source of the application manifests
+  source:
+    repoURL: https://github.com/ShivakumarDarapu/HOMELAB.git
+    targetRevision: HEAD  # For Helm, this refers to the chart version.
+    path: ./Deployments/myapps 
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app-of-apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  

@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testapp
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: app-of-apps
+  # # Add this finalizer ONLY if you want these to cascade delete.
+  # finalizers:
+  #   # The default behaviour is foreground cascading deletion
+  #   - resources-finalizer.argocd.argoproj.io
+  #   # Alternatively, you can use background cascading deletion
+  #   # - resources-finalizer.argocd.argoproj.io/background
+  # # Add labels to your application object.
+  # labels:
+  #   name: guestbook
+spec:
+  # The project the application belongs to.
+  project: app-of-apps
+  # Source of the application manifests
+  source:
+    repoURL: https://github.com/sidd-harth/solar-system-gitops-argocd-gitea.git  # Can point to either a Helm chart repo or a git repo.
+    targetRevision: HEAD  # For Helm, this refers to the chart version.
+    path: kubernetes  # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: solarapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
