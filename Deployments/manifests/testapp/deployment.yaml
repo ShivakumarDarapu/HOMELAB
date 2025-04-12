@@ -1,78 +1,78 @@
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: testapp-app
-  namespace: testapp
-  labels:
-    app: testapp-app
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: testapp-app
-  template:
-    metadata:
-      labels:
-        app: testapp-app
-    spec:
-      containers:
-      - name: testapp-app-container
-        image: nginx
-        ports:
-        - containerPort: 80
----
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: testapp-app
+#   namespace: testapp
+#   labels:
+#     app: testapp-app
+# spec:
+#   replicas: 3
+#   selector:
+#     matchLabels:
+#       app: testapp-app
+#   template:
+#     metadata:
+#       labels:
+#         app: testapp-app
+#     spec:
+#       containers:
+#       - name: testapp-app-container
+#         image: nginx
+#         ports:
+#         - containerPort: 80
+# ---
 
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: testapp-app
-  name: solar-system
-  namespace: testapp
-spec:
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-  selector:
-    app: testapp-app
-  type: ClusterIP
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   labels:
+#     app: testapp-app
+#   name: solar-system
+#   namespace: testapp
+# spec:
+#   ports:
+#   - port: 80
+#     protocol: TCP
+#     targetPort: 80
+#   selector:
+#     app: testapp-app
+#   type: ClusterIP
 
----
+# ---
 
-apiVersion: networking.istio.io/v1beta1
-kind: Gateway
-metadata:
-  name: testappapp
-  namespace: testapp
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-    - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      hosts:
-        - "testappapp.homelab.potatohead.live"
----
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: testappapp
-  namespace: testapp
-spec:
-  hosts:
-    - "testapp.homelab.potatohead.live"
-  gateways:
-    - testappapp
-  http:
-    - match:
-        - uri:
-            prefix: /
-      route:
-        - destination:
-            host: solar-system
-            port:
-              number: 80
+# apiVersion: networking.istio.io/v1beta1
+# kind: Gateway
+# metadata:
+#   name: testappapp
+#   namespace: testapp
+# spec:
+#   selector:
+#     istio: ingressgateway
+#   servers:
+#     - port:
+#         number: 80
+#         name: http
+#         protocol: HTTP
+#       hosts:
+#         - "testappapp.homelab.potatohead.live"
+# ---
+# apiVersion: networking.istio.io/v1beta1
+# kind: VirtualService
+# metadata:
+#   name: testappapp
+#   namespace: testapp
+# spec:
+#   hosts:
+#     - "testapp.homelab.potatohead.live"
+#   gateways:
+#     - testappapp
+#   http:
+#     - match:
+#         - uri:
+#             prefix: /
+#       route:
+#         - destination:
+#             host: solar-system
+#             port:
+#               number: 80
