@@ -21,10 +21,10 @@ spec:
   source:
     repoURL: https://github.com/ShivakumarDarapu/HOMELAB.git
     targetRevision: HEAD  # For Helm, this refers to the chart version.
-    path: ./Deployments/myapps 
+    path: Deployments/myapps 
   destination:
     server: https://kubernetes.default.svc
-    namespace: app-of-apps
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true

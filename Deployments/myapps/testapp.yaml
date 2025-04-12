@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: testapp
   # You'll usually want to add your resources to the argocd namespace.
-  namespace: app-of-apps
+  namespace: argocd
   # # Add this finalizer ONLY if you want these to cascade delete.
   # finalizers:
   #   # The default behaviour is foreground cascading deletion
@@ -21,7 +21,7 @@ spec:
   source:
     repoURL: https://github.com/ShivakumarDarapu/HOMELAB.git
     targetRevision: HEAD  # For Helm, this refers to the chart version.
-    path: ./Deployments/manifests/testapp
+    path: Deployments/manifests/testapp
   destination:
     server: https://kubernetes.default.svc
     namespace: testapp
