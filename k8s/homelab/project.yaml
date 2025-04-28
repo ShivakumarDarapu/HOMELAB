@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: demo-project
+  namespace: argocd
+spec:
+  description: A sample project for demonstration
+  sourceRepos:
+    - https://github.com/ShivakumarDarapu/HOMELAB.git
+  destinations:
+    - namespace: jenkins
+      server: https://192.168.0.153:6443
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
