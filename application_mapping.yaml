@@ -1,0 +1,10 @@
+projects:
+- project_name: demo-app2
+  description: "A sample project for demonstration"
+  source:
+    repo: 'https://github.com/ShivakumarDarapu/HOMELAB.git'
+    path: ''
+    branch: 'main'
+  destination:
+    namespace: "Jenkins1"
+    server: '*'
