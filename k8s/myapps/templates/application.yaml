@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: {{ .source.repo | quote}}
     targetRevision: {{ .source.branch | quote}}
-    path: {{ .source.path | quote}}
+    path: {{ printf "Deployments/%s" .source.path | quote}}
   destination:
     server: {{ .destination.server | quote}}
     namespace: {{ .destination.namespace | quote}}

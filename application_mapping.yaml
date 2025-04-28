@@ -3,7 +3,7 @@ projects:
   description: "A sample project for demonstration"
   source:
     repo: 'https://github.com/ShivakumarDarapu/HOMELAB.git'
-    path: ''
+    path: 'jenkins_homelab'
     branch: 'main'
   destination:
     namespace: "Jenkins1"
