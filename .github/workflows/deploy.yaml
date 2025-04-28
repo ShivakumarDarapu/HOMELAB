@@ -27,4 +27,4 @@ jobs:
       - name: Deploying Apps
         run: |
           cd k8s/myapps
-          helm install myapps . --values ../../application_mapping.yaml --debug
+          helm upgrade myapps . --values ../../application_mapping.yaml --debug
