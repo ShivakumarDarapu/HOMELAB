@@ -1,0 +1,23 @@
+# https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jenkins-ingress
+  namespace: jenkins
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: jenkins.homelab.potatohead.live
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkins-svc
+            port:
+              number: 8080
+  tls:
+  - hosts:
+    - jenkins.dev.potatohead.live

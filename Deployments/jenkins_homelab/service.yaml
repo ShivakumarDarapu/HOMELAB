@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-svc
+  namespace: jenkins
+spec:
+  selector:
+    app: jenkins
+  type: ClusterIP
+  sessionAffinity: None
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+    

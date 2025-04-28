@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  jenkins-app
+  namespace: jenkins
+  labels:
+    app: jenkins
+spec:
+  selector:
+    matchLabels:
+      app: jenkins
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      # initContainers:
+        # Init containers are exactly like regular containers, except:
+          # - Init containers always run to completion.
+          # - Each init container must complete successfully before the next one starts.
+      containers:
+      - name:  jenkins-app
+        image:  jenkins/jenkins:lts-jdk17
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1000Mi
+          limits:
+            cpu: 5000m
+            memory: 5000Mi
+        # env:
+        # - name: DB_HOST
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: jenkins-app
+        #       key: DB_HOST
+        ports:
+        - containerPort: 8080
+          name:  jenkins-app
+        volumeMounts:
+        - name: localpvc
+          mountPath: /var/jenkins_home
+      volumes:
+        - name: localpvc
+          persistentVolumeClaim:
+            claimName: jenkins-pvc
+      restartPolicy: Always
