@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/ShivakumarDarapu/HOMELAB.git
     targetRevision: main
-    path: Deployments/jenkins
+    path: Deployments/jenkins_homelab
   destination:
     server: https://192.168.0.153:6443
     namespace: jenkins
