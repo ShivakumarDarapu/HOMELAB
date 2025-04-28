@@ -9,7 +9,7 @@ spec:
     - https://github.com/ShivakumarDarapu/HOMELAB.git
   destinations:
     - namespace: jenkins
-      server: https://192.168.0.153:6443
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
