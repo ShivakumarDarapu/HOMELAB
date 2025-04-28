@@ -6,5 +6,5 @@ projects:
     path: 'jenkins_homelab'
     branch: 'main'
   destination:
-    namespace: "Jenkins"
+    namespace: "Jenkins123"
     server: 'https://192.168.0.153:6443'
