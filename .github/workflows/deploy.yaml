@@ -22,18 +22,18 @@ jobs:
         run: | 
           cd k8s/myapps
           echo "Running helm lint..."
-          helm lint .
-          check_for_errors=$(helm lint . | grep "Error")
+          lint_output=$(helm lint .)
+          echo "$lint_output"
           
-          if [[ -z "${check_for_errors}" ]]; then
-            echo "✅ HELM CHARTS SEEM TO BE FINE"
-          else
+          if echo "$lint_output" | grep -q "Error"; then
             echo "❌ THERE WAS SOME ISSUE IN HELM CHART"
             echo "=== Helm Lint Output ==="
-            helm lint .
+            echo "$lint_output"
             echo "=== Helm Template Output ==="
             helm template . --values ../../application_mapping.yaml
             exit 1
+          else
+            echo "✅ HELM CHARTS SEEM TO BE FINE"
           fi
         shell: bash
       # Runs a single command using the runners shell
