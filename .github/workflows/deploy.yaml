@@ -18,11 +18,21 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-
+      - name: TEST HELM CHARTS
+        run: | 
+          cd k8s/myapps
+          check_for_errors=$(helm lint | grep "Error")
+          if [ -z "${VAR}" ];then
+            echo "HELM CHARTS SEEM TO BE FINE"
+          else
+            echo "THERE WAS SOME ISSUE IN HELM CHART"
+            helm lint .
+            helm template . --values ../../application_mapping.yaml
+            exit 1
       # Runs a single command using the runners shell
       - name: Setting Kubernetes context
         run: kubectl config set-context default
-
+      
       # Runs a set of commands using the runners shell
       - name: Deploying Apps
         run: |
