@@ -22,13 +22,15 @@ jobs:
         run: | 
           cd k8s/myapps
           check_for_errors=$(helm lint | grep "Error")
-          if [ -z "${VAR}" ];then
+          if [[ -z "${VAR}" ]]
+          then
             echo "HELM CHARTS SEEM TO BE FINE"
           else
             echo "THERE WAS SOME ISSUE IN HELM CHART"
             helm lint .
             helm template . --values ../../application_mapping.yaml
             exit 1
+          fi
       # Runs a single command using the runners shell
       - name: Setting Kubernetes context
         run: kubectl config set-context default
