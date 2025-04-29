@@ -22,7 +22,7 @@ jobs:
         run: | 
           cd k8s/myapps
           check_for_errors=$(helm lint | grep "Error")
-          if [[ -z "${VAR}" ]]
+          if [[ -z "${check_for_errors}" ]]
           then
             echo "HELM CHARTS SEEM TO BE FINE"
           else
