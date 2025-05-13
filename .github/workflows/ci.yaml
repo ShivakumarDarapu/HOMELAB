@@ -19,7 +19,6 @@ jobs:
           mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       - name: Run tests and collect coverage
         run: |
-          |
           cd ./DevSecOps/Test-App
           pwd 
           mvn -B test
