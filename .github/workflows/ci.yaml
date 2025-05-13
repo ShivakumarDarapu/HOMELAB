@@ -43,7 +43,7 @@ jobs:
           name: Build_Files
       - name: Build Docker Image 
         run: |
-          ls -al
+          ls -al && ls -al ./target
           docker build -t "dshivakumar/sample-java-app:${{ github.run_id }}" .
       - name: Docker Registery Authentication
         run: sh 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
