@@ -37,8 +37,8 @@ jobs:
         run: |
           cd ./DevSecOps/Test-App
           pwd
-          sh 'docker build -t dshivakumar/sample-java-app:""GIT_COMMIT"" .'
+          sh 'docker build -t dshivakumar/sample-java-app:${{ github.run_id }} .'
       - name: Docker Registery Authentication
         run: sh 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
       - name: DOCKER IMAGE PUSH 
-        run: sh 'docker push dshivakumar/sample-java-app:""GIT_COMMIT""'
+        run: sh 'docker push dshivakumar/sample-java-app:${{ github.run_id }}'
