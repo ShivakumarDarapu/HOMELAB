@@ -1,0 +1,53 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gloo-gateway-oss-helm
+  namespace: argocd
+spec:
+  destination:
+    namespace: gloo-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: gloo
+    helm:
+      skipCrds: false
+      values: |
+        kubeGateway:
+          # Enable K8s Gateway integration
+          enabled: true
+        gatewayProxies:
+          gatewayProxy:
+            disabled: true
+        gloo:
+          disableLeaderElection: true
+        discovery:
+          # For demo purposes, disable discovery
+          enabled: false
+    repoURL: https://storage.googleapis.com/solo-public-helm
+    targetRevision: 1.19.0
+  syncPolicy:
+    automated:
+      # Prune resources during auto-syncing (default is false)
+      prune: true
+      # Sync the app in part when resources are changed only in the target Kubernetes cluster
+      # but not in the git source (default is false).
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+--- 
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: http
+spec:
+  gatewayClassName: gloo-gateway
+  listeners:
+  - protocol: HTTP
+    port: 8080
+    name: http
+    allowedRoutes:
+      namespaces:
+        from: All
+---
