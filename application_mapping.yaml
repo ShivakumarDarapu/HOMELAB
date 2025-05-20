@@ -12,7 +12,7 @@ projects:
   description: "gloo gateway"
   source:
     repo: 'https://github.com/ShivakumarDarapu/HOMELAB.git'
-    path: 'jDeployments/gloo_gateway'
+    path: 'Deployments/gloo_gateway'
     branch: 'main'
   destination:
     namespace: "jenkins"

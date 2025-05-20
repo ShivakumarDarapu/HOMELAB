@@ -1,5 +1,8 @@
 name: Workflow for Codecov example-java-maven
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - DevSecOps/Test-App
 jobs:
   TEST:
     runs-on: ubuntu-latest
