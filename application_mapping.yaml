@@ -8,7 +8,7 @@ projects:
   destination:
     namespace: "jenkins"
     server: 'https://192.168.0.153:6443'
-- project_name: gloo_gateway
+- project_name: gloo-gateway
   description: "gloo gateway"
   source:
     repo: 'https://github.com/ShivakumarDarapu/HOMELAB.git'
