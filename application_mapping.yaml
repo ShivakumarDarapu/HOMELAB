@@ -15,7 +15,7 @@ projects:
     path: 'gloo_gateway'
     branch: 'main'
   destination:
-    namespace: "jenkins"
+    namespace: gloo-system
     server: 'https://192.168.0.153:6443'
 - project_name: gloo-sample-app
   description: "gloo gateway"

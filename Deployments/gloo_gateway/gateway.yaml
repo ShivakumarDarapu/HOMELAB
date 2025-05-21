@@ -2,6 +2,7 @@ kind: Gateway
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
   name: gloohttp
+  namespace: gloo-system
 spec:
   gatewayClassName: gloo-gateway
   listeners:
@@ -16,7 +17,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: gloo-gateway
-  namespace: jenkins
+  namespace: gloo-system
 spec:
   selector:
     istio: ingressgateway  # use Istio's jenkins ingress gateway
@@ -32,7 +33,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: gloo
-  namespace: jenkins
+  namespace: gloo-system
 spec:
   hosts:
   - "gloo.test.potatohead.live"
