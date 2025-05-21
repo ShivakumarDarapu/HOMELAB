@@ -17,3 +17,12 @@ projects:
   destination:
     namespace: "jenkins"
     server: 'https://192.168.0.153:6443'
+- project_name: gloo-sample-app
+  description: "gloo gateway"
+  source:
+    repo: 'https://github.com/ShivakumarDarapu/HOMELAB.git'
+    path: 'gloo_sample_app'
+    branch: 'main'
+  destination:
+    namespace: "httpbin"
+    server: 'https://192.168.0.153:6443'

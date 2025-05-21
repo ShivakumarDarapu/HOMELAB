@@ -1,7 +1,7 @@
 kind: Gateway
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
-  name: http
+  name: gloohttp
 spec:
   gatewayClassName: gloo-gateway
   listeners:
@@ -15,35 +15,35 @@ spec:
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: my-app-gateway
-  namespace: default
+  name: gloo-gateway
+  namespace: jenkins
 spec:
   selector:
-    istio: ingressgateway  # use Istio's default ingress gateway
+    istio: ingressgateway  # use Istio's jenkins ingress gateway
   servers:
   - port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "myapp.example.com"
+    - "gloo.test.potatohead.live"
 --- 
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: my-app
-  namespace: default
+  name: gloo
+  namespace: jenkins
 spec:
   hosts:
-  - "myapp.example.com"
+  - "gloo.test.potatohead.live"
   gateways:
-  - my-app-gateway
+  - gloo-gateway
   http:
   - match:
     - uri:
         prefix: /
     route:
     - destination:
-        host: my-app
+        host: gloohttp
         port:
-          number: 80
+          number: 8080
