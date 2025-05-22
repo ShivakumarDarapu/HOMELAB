@@ -11,15 +11,20 @@ metadata:
   name: httpbin
   namespace: httpbin
   labels:
+    app.kubernetes.io/instance: gloo-sample-app
     example: httpbin-route
 spec:
+  hostnames:
+    - gloo.test.potatohead.live
   parentRefs:
     - name: gloohttp
-      namespace: gloo-system
-  hostnames:
-    - "gloo.test.potatohead.live"
+      namespace: jenkins # ✅ corrected
   rules:
-    - backendRefs:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
         - name: httpbin
           port: 8000
 ---
