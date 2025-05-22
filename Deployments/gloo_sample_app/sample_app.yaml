@@ -18,7 +18,7 @@ spec:
     - gloo.test.potatohead.live
   parentRefs:
     - name: gloohttp
-      namespace: jenkins # ✅ corrected
+      namespace: gloo-system # ✅ corrected
   rules:
     - matches:
         - path:

@@ -1,50 +1,53 @@
-kind: Gateway
-apiVersion: gateway.networking.k8s.io/v1
-metadata:
-  name: gloohttp
-  namespace: gloo-system
-spec:
-  gatewayClassName: gloo-gateway
-  listeners:
-  - protocol: HTTP
-    port: 8080
-    name: http
-    allowedRoutes:
-      namespaces:
-        from: All
----
+
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: gloo-gateway
-  namespace: gloo-system
+  namespace: istio-system
 spec:
   selector:
-    istio: ingressgateway  # use Istio's jenkins ingress gateway
+    istio: ingressgateway
   servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "gloo.test.potatohead.live"
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "gloo.test.potatohead.live"
 --- 
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: gloo
-  namespace: gloo-system
+  name: forward-to-gloo
+  namespace: istio-system
 spec:
   hosts:
-  - "gloo.test.potatohead.live"
+    - gloo.test.potatohead.live
   gateways:
-  - gloo-gateway
+    - istio-system/gloo-gateway
   http:
-  - match:
-    - uri:
-        prefix: /
-    route:
-    - destination:
-        host: gloohttp
-        port:
-          number: 8080
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: gloo-gateway.jenkins.svc.cluster.local
+            port:
+              number: 80
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: gloo-gateway
+  namespace: jenkins
+spec:
+  selector:
+    app: gateway-proxy  # ✅ Match the correct Gloo Gateway proxy label
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+    - name: https
+      port: 443
+      targetPort: 8443
+--- 
